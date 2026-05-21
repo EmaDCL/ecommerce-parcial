@@ -1,0 +1,10 @@
+com\mycompany\ecommerce\resources\JakartaEE8Resource.class
+servlet\ActualizarProductoServlet.class
+servlet\AgregarProductoServlet.class
+com\mycompany\ecommerce\JakartaRestConfiguration.class
+model\Producto.class
+servlet\CarritoServlet.class
+model\Carrito.class
+servlet\ProductoServlet.class
+repository\ProductoRepository.class
+servlet\EditarProductoServlet.class
