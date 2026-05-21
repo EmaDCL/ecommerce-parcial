@@ -680,7 +680,7 @@ setTimeout(() => {
 
     <div class="nav-group">
         <div class="nav-group-label">Tienda</div>
-        <a href="productos.jsp" class="nav-link-s">Explorar</a>
+        <a href="/productos" class="nav-link-s">Explorar</a>
         <a href="productos?categoria=tecnologia" class="nav-link-s">Tecnologia</a>
         <a href="productos?categoria=electrodomestico" class="nav-link-s">Electrodomesticos</a>
     </div>
