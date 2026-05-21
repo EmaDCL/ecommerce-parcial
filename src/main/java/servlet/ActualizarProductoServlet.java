@@ -36,7 +36,7 @@ public class ActualizarProductoServlet extends HttpServlet {
         
         ProductoRepository.actualizar(Actualizado);
         
-        response.sendRedirect("productos");
+        response.sendRedirect("/productos");
         
     }
     @Override

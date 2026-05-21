@@ -25,7 +25,7 @@ public class EditarProductoServlet extends HttpServlet {
         Producto producto = ProductoRepository.buscar(id);
         
         request.setAttribute("producto",producto);
-        request.getRequestDispatcher("formularioEditar.jsp").forward(request, response);
+        request.getRequestDispatcher("/formularioEditar.jsp").forward(request, response);
         
 }
     @Override

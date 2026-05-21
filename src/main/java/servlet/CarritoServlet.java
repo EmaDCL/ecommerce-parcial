@@ -56,7 +56,7 @@ public class CarritoServlet extends HttpServlet {
 
             if (producto == null) {
 
-                response.sendRedirect("productos");
+                response.sendRedirect("/productos");
                 return;
             }
 
@@ -88,7 +88,7 @@ public class CarritoServlet extends HttpServlet {
 
            session.setAttribute("carrito", carrito);
 
-response.sendRedirect("productos?agregado=" + id);
+response.sendRedirect("/productos?agregado=" + id);
 return;
         }
 
@@ -108,7 +108,7 @@ return;
 
             session.setAttribute("carrito", carrito);
 
-            response.sendRedirect("CarritoServlet");
+            response.sendRedirect("/CarritoServlet");
             return;
         }
 
@@ -124,7 +124,7 @@ if ("checkout".equals(action)) {
 
     session.setAttribute("carrito", carrito);
 
-    response.sendRedirect("Carrito.jsp?comprado=true");
+    response.sendRedirect("/Carrito.jsp?comprado=true");
     return;
 }
         
@@ -174,7 +174,7 @@ if ("checkout".equals(action)) {
         // MOSTRAR JSP
         // ======================================
 
-        request.getRequestDispatcher("Carrito.jsp")
+        request.getRequestDispatcher("/Carrito.jsp")
                 .forward(request, response);
     }
 }

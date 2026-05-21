@@ -33,7 +33,7 @@ public class AgregarProductoServlet extends HttpServlet {
         
         ProductoRepository.agregar(nuevo);
         
-        response.sendRedirect("productos");
+        response.sendRedirect("/productos");
         
     }
 
