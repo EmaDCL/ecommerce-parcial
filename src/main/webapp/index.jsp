@@ -680,13 +680,13 @@ setTimeout(() => {
 
     <div class="nav-group">
         <div class="nav-group-label">Tienda</div>
-        <a href="/productos" class="nav-link-s">Explorar</a>
-        <a href="productos?categoria=tecnologia" class="nav-link-s">Tecnologia</a>
-        <a href="productos?categoria=electrodomestico" class="nav-link-s">Electrodomesticos</a>
+        <a href="${pageContext.request.contextPath}/productos.jsp"> class="nav-link-s">Explorar</a>
+        <a href="${pageContext.request.contextPath}/productos.jsp?categoria=tecnologia"> class="nav-link-s">Tecnologia</a>
+        <a href="${pageContext.request.contextPath}/productos.jsp?categoria=electrodomestico"> class="nav-link-s">Electrodomesticos</a>
     </div>
 
     <div class="sidebar-bottom">
-        <a href="music/cassette.jsp" class="skynet-fm-btn">
+        <a href="${pageContext.request.contextPath}/music/cassette.jsp"> class="skynet-fm-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M9 18V5l12-2v13"/>
                 <circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
@@ -733,7 +733,7 @@ setTimeout(() => {
                 <div class="hero-quote-small">
                     "Que las estrellas nos iluminen aunque hayan muerto hace millones de años"
                 </div>
-                <a href="/productos.jsp" class="btn-play">
+                <a href="productos.jsp" class="btn-play">
                     <svg viewBox="0 0 24 24" fill="currentColor">
                         <polygon points="5 3 19 12 5 21 5 3"/>
                     </svg>
