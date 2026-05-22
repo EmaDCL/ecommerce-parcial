@@ -88,7 +88,7 @@ public class CarritoServlet extends HttpServlet {
 
            session.setAttribute("carrito", carrito);
 
-response.sendRedirect("/productos?agregado=" + id);
+response.sendRedirect(request.getContextPath() + "/productos?agregado=" + id);
 return;
         }
 
@@ -108,7 +108,7 @@ return;
 
             session.setAttribute("carrito", carrito);
 
-            response.sendRedirect("/CarritoServlet");
+            response.sendRedirect(request.getContextPath() + "/CarritoServlet");
             return;
         }
 
@@ -124,7 +124,7 @@ if ("checkout".equals(action)) {
 
     session.setAttribute("carrito", carrito);
 
-    response.sendRedirect("/Carrito.jsp?comprado=true");
+    response.sendRedirect(request.getContextPath() + "/Carrito.jsp?comprado=true");
     return;
 }
         
