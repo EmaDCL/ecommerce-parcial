@@ -1,99 +1,120 @@
-
 const globalAudio = document.getElementById("globalAudio");
 const globalSource = document.getElementById("globalSource");
 
-/* ── ESTADO ── */
+
 let isPlaying = false;
 let isShuffle = false;
-let isRepeat  = false;
+let isRepeat = false;
 let currentIndex = 0;
 
-/* ── CANCIONES ── */
+
+const BASE_AUDIO = "../audio/";
+const BASE_IMG = "../img/";
+
+
 const songs = [
     {
-        src:    '../audio/hope_is_the_thing.mp3',
-        title:  'Hope Is The Thing',
-        artist: 'SKYNET FM',
-        cover:  '../img/frame1.png'
+        src: BASE_AUDIO + "hope_is_the_thing.mp3",
+        title: "Hope Is The Thing",
+        artist: "SKYNET FM",
+        cover: BASE_IMG + "frame1.png"
     },
     {
-        src:    '../audio/breaking_the_habit.mp3',
-        title:  'Breaking The Habit',
-        artist: 'Linkin Park',
-        cover:  '../img/frame2.png'
+        src: BASE_AUDIO + "breaking_the_habit.mp3",
+        title: "Breaking The Habit",
+        artist: "Linkin Park",
+        cover: BASE_IMG + "frame2.png"
     },
     {
-        src:    '../audio/join_me_in_death.mp3',
-        title:  'Join Me In Death',
-        artist: 'HIM',
-        cover:  '../img/frame3.png'
+        src: BASE_AUDIO + "join_me_in_death.mp3",
+        title: "Join Me In Death",
+        artist: "HIM",
+        cover: BASE_IMG + "frame3.png"
     },
     {
-        src:    '../audio/karma_police.mp3',
-        title:  'Karma Police',
-        artist: 'Radiohead',
-        cover:  '../img/frame4.png'
+        src: BASE_AUDIO + "karma_police.mp3",
+        title: "Karma Police",
+        artist: "Radiohead",
+        cover: BASE_IMG + "frame4.png"
     },
     {
-        src:    '../audio/numb.mp3',
-        title:  'Numb',
-        artist: 'Linkin Park',
-        cover:  '../img/frame5.png'
+        src: BASE_AUDIO + "numb.mp3",
+        title: "Numb",
+        artist: "Linkin Park",
+        cover: BASE_IMG + "frame5.png"
     }
 ];
 
-/* ── PLAY / PAUSE ── */
+
 function togglePlay() {
 
-    if (isPlaying) {
+    if (globalAudio.paused) {
+
+        globalAudio.play()
+            .then(() => {
+
+                localStorage.setItem(
+                    "skynet-playing",
+                    "true"
+                );
+
+                setPlaying(true);
+
+            })
+            .catch(err => console.log(err));
+
+    } else {
 
         globalAudio.pause();
 
         localStorage.setItem(
-            'skynet-playing',
-            'false'
+            "skynet-playing",
+            "false"
         );
 
         setPlaying(false);
-
-    } else {
-
-        globalAudio.play().catch(() => {});
-
-        localStorage.setItem(
-            'skynet-playing',
-            'true'
-        );
-
-        setPlaying(true);
     }
 }
 
+/* ─────────────────────────────
+   UI PLAYING
+───────────────────────────── */
 function setPlaying(state) {
 
     isPlaying = state;
 
-    const playIcon  = document.getElementById('playIcon');
-    const pauseIcon = document.getElementById('pauseIcon');
-    const spinRing  = document.getElementById('spinRing');
+    const playIcon =
+        document.getElementById("playIcon");
+
+    const pauseIcon =
+        document.getElementById("pauseIcon");
+
+    const spinRing =
+        document.getElementById("spinRing");
 
     if (state) {
 
-        playIcon.style.display  = 'none';
-        pauseIcon.style.display = 'block';
+        playIcon.style.display = "none";
+        pauseIcon.style.display = "block";
 
-        spinRing.classList.add('playing');
+        if (spinRing) {
+            spinRing.classList.add("playing");
+        }
 
     } else {
 
-        playIcon.style.display  = 'block';
-        pauseIcon.style.display = 'none';
+        playIcon.style.display = "block";
+        pauseIcon.style.display = "none";
 
-        spinRing.classList.remove('playing');
+        if (spinRing) {
+            spinRing.classList.remove("playing");
+        }
     }
 }
 
-/* ── CAMBIAR CANCION ── */
+/* ─────────────────────────────
+   CAMBIAR CANCION
+───────────────────────────── */
 function changeSong(src, title, artist, index) {
 
     currentIndex = index;
@@ -102,83 +123,112 @@ function changeSong(src, title, artist, index) {
 
     globalAudio.load();
 
-    globalAudio.play().catch(() => {});
+    globalAudio.play()
+        .then(() => {
 
-    setPlaying(true);
+            setPlaying(true);
 
-    localStorage.setItem(
-        'skynet-playing',
-        'true'
-    );
+            localStorage.setItem(
+                "skynet-playing",
+                "true"
+            );
 
-    /* Actualizar info */
-    document.getElementById('songTitle').textContent  = title;
-    document.getElementById('songArtist').textContent = artist;
+        })
+        .catch(err => console.log(err));
 
-    /* Actualizar caratula */
-    const song = songs[currentIndex];
+    /* INFO */
+    document.getElementById("songTitle").textContent =
+        title;
 
-    if (song && song.cover) {
+    document.getElementById("songArtist").textContent =
+        artist;
 
-        document.getElementById('albumCover').src =
-        song.cover;
+    /* CARATULA */
+    const song = songs[index];
+
+    if (song) {
+
+        document.getElementById("albumCover").src =
+            song.cover;
     }
 
-    /* Playlist activa */
-    document.querySelectorAll('.playlist-item')
-    .forEach((item, i) => {
+    /* PLAYLIST */
+    document
+        .querySelectorAll(".playlist-item")
+        .forEach((item, i) => {
 
-        item.classList.toggle(
-            'active-song',
-            i === index
-        );
+            item.classList.toggle(
+                "active-song",
+                i === index
+            );
 
-        const ind =
-        document.getElementById('indicator' + i);
+            const indicator =
+                document.getElementById(
+                    "indicator" + i
+                );
 
-        if (ind) {
+            if (indicator) {
 
-            ind.textContent =
-            i === index ? '▶' : '';
-        }
-    });
+                indicator.textContent =
+                    i === index ? "▶" : "";
+            }
+        });
 
-    /* Reset barra */
-    document.getElementById('progressFill').style.width =
-    '0%';
+    /* RESET PROGRESO */
+    document.getElementById(
+        "progressFill"
+    ).style.width = "0%";
 
-    document.getElementById('currentTime').textContent =
-    '0:00';
+    document.getElementById(
+        "currentTime"
+    ).textContent = "0:00";
 
-    /* Guardar cancion */
-    localStorage.setItem('skynet-song', JSON.stringify({
-
-        src:
-        src.replace('../audio/', 'audio/'),
-
-        title:  title,
-        artist: artist
-    }));
-}
-
-/* ── SIGUIENTE ── */
-function nextSong() {
-
-    let next = isShuffle
-        ? Math.floor(Math.random() * songs.length)
-        : (currentIndex + 1) % songs.length;
-
-    const s = songs[next];
-
-    changeSong(
-        s.src,
-        s.title,
-        s.artist,
-        next
+    /* GUARDAR */
+    localStorage.setItem(
+        "skynet-song",
+        JSON.stringify({
+            src: src,
+            title: title,
+            artist: artist,
+            index: index
+        })
     );
 }
 
-/* ── ANTERIOR ── */
+/* ─────────────────────────────
+   SIGUIENTE
+───────────────────────────── */
+function nextSong() {
+
+    let nextIndex;
+
+    if (isShuffle) {
+
+        nextIndex =
+            Math.floor(
+                Math.random() * songs.length
+            );
+
+    } else {
+
+        nextIndex =
+            (currentIndex + 1) % songs.length;
+    }
+
+    const nextSongObj =
+        songs[nextIndex];
+
+    changeSong(
+        nextSongObj.src,
+        nextSongObj.title,
+        nextSongObj.artist,
+        nextIndex
+    );
+}
+
+/* ─────────────────────────────
+   ANTERIOR
+───────────────────────────── */
 function prevSong() {
 
     if (globalAudio.currentTime > 3) {
@@ -187,221 +237,294 @@ function prevSong() {
         return;
     }
 
-    let prev =
-    (currentIndex - 1 + songs.length)
-    % songs.length;
+    const prevIndex =
+        (currentIndex - 1 + songs.length)
+        % songs.length;
 
-    const s = songs[prev];
+    const prevSongObj =
+        songs[prevIndex];
 
     changeSong(
-        s.src,
-        s.title,
-        s.artist,
-        prev
+        prevSongObj.src,
+        prevSongObj.title,
+        prevSongObj.artist,
+        prevIndex
     );
 }
 
-/* ── SHUFFLE ── */
+/* ─────────────────────────────
+   SHUFFLE
+───────────────────────────── */
 function toggleShuffle() {
 
     isShuffle = !isShuffle;
 
-    document.getElementById('shuffleBtn')
-    .style.color =
-    isShuffle ? 'var(--cyan)' : '';
+    document.getElementById(
+        "shuffleBtn"
+    ).style.color =
+        isShuffle ? "#00f2ff" : "";
 }
 
-/* ── REPEAT ── */
+/* ─────────────────────────────
+   REPEAT
+───────────────────────────── */
 function toggleRepeat() {
 
     isRepeat = !isRepeat;
 
     globalAudio.loop = isRepeat;
 
-    document.getElementById('repeatBtn')
-    .style.color =
-    isRepeat ? 'var(--cyan)' : '';
+    document.getElementById(
+        "repeatBtn"
+    ).style.color =
+        isRepeat ? "#00f2ff" : "";
 }
 
-/* ── SEEK ── */
+/* ─────────────────────────────
+   SEEK
+───────────────────────────── */
 function seekMusic(event) {
 
     const wrap =
-    document.getElementById('progressWrap');
+        document.getElementById(
+            "progressWrap"
+        );
 
     const rect =
-    wrap.getBoundingClientRect();
+        wrap.getBoundingClientRect();
 
     const ratio =
-    (event.clientX - rect.left)
-    / rect.width;
+        (event.clientX - rect.left)
+        / rect.width;
 
     if (globalAudio.duration) {
 
         globalAudio.currentTime =
-        ratio * globalAudio.duration;
+            ratio * globalAudio.duration;
     }
 }
 
-/* ── FORMATO TIEMPO ── */
+/* ─────────────────────────────
+   FORMATO TIEMPO
+───────────────────────────── */
 function formatTime(sec) {
 
-    if (isNaN(sec)) return '0:00';
+    if (isNaN(sec)) {
+        return "0:00";
+    }
 
-    const m =
-    Math.floor(sec / 60);
+    const minutes =
+        Math.floor(sec / 60);
 
-    const s =
-    Math.floor(sec % 60)
-    .toString()
-    .padStart(2, '0');
+    const seconds =
+        Math.floor(sec % 60)
+            .toString()
+            .padStart(2, "0");
 
-    return `${m}:${s}`;
+    return `${minutes}:${seconds}`;
 }
 
-/* ── ACTUALIZAR BARRA ── */
-globalAudio.addEventListener('timeupdate', () => {
-
-    const cur =
-    globalAudio.currentTime;
-
-    const dur =
-    globalAudio.duration || 0;
-
-    const pct =
-    dur ? (cur / dur) * 100 : 0;
-
-    document.getElementById('progressFill')
-    .style.width = pct + '%';
-
-    document.getElementById('currentTime')
-    .textContent = formatTime(cur);
-
-    document.getElementById('totalTime')
-    .textContent = formatTime(dur);
-
-    localStorage.setItem(
-        'skynet-progress',
-        cur
-    );
-});
-
-/* ── AUTO SIGUIENTE ── */
-globalAudio.addEventListener('ended', () => {
-
-    if (!isRepeat) {
-
-        nextSong();
-    }
-});
-
-/* ── SINCRONIZAR ── */
+/* ─────────────────────────────
+   BARRA PROGRESO
+───────────────────────────── */
 globalAudio.addEventListener(
-    'play',
+    "timeupdate",
+    () => {
+
+        const current =
+            globalAudio.currentTime;
+
+        const duration =
+            globalAudio.duration || 0;
+
+        const percent =
+            duration
+                ? (current / duration) * 100
+                : 0;
+
+        document.getElementById(
+            "progressFill"
+        ).style.width =
+            percent + "%";
+
+        document.getElementById(
+            "currentTime"
+        ).textContent =
+            formatTime(current);
+
+        document.getElementById(
+            "totalTime"
+        ).textContent =
+            formatTime(duration);
+
+        localStorage.setItem(
+            "skynet-progress",
+            current
+        );
+    }
+);
+
+
+globalAudio.addEventListener(
+    "ended",
+    () => {
+
+        if (!isRepeat) {
+            nextSong();
+        }
+    }
+);
+
+/* ─────────────────────────────
+   SINCRONIZAR ESTADO
+───────────────────────────── */
+globalAudio.addEventListener(
+    "play",
     () => setPlaying(true)
 );
 
 globalAudio.addEventListener(
-    'pause',
+    "pause",
     () => setPlaying(false)
 );
 
-/* ── CARGAR ESTADO ── */
-window.addEventListener('DOMContentLoaded', () => {
+/* ─────────────────────────────
+   CARGAR ESTADO
+───────────────────────────── */
+window.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    const savedSong =
-    localStorage.getItem('skynet-song');
-
-    if(savedSong){
-
-        try{
-
-            const song =
-            JSON.parse(savedSong);
-
-            globalSource.src =
-            '../' + song.src;
-
-            globalAudio.load();
-
-            document.getElementById('songTitle')
-            .textContent =
-            song.title;
-
-            document.getElementById('songArtist')
-            .textContent =
-            song.artist;
-
-            const index =
-            songs.findIndex(s =>
-                s.title === song.title
+        const savedSong =
+            localStorage.getItem(
+                "skynet-song"
             );
 
-            if(index !== -1){
+        if (savedSong) {
 
-                currentIndex = index;
+            try {
 
-                document.getElementById('albumCover')
-                .src =
-                songs[index].cover;
+                const song =
+                    JSON.parse(savedSong);
 
-                document.querySelectorAll('.playlist-item')
-                .forEach((item, i) => {
+                globalSource.src =
+                    song.src;
 
-                    item.classList.toggle(
-                        'active-song',
-                        i === index
-                    );
+                globalAudio.load();
 
-                    const ind =
+                document.getElementById(
+                    "songTitle"
+                ).textContent =
+                    song.title;
+
+                document.getElementById(
+                    "songArtist"
+                ).textContent =
+                    song.artist;
+
+                currentIndex =
+                    song.index || 0;
+
+                if (songs[currentIndex]) {
+
                     document.getElementById(
-                        'indicator' + i
+                        "albumCover"
+                    ).src =
+                        songs[currentIndex].cover;
+                }
+
+                document
+                    .querySelectorAll(
+                        ".playlist-item"
+                    )
+                    .forEach((item, i) => {
+
+                        item.classList.toggle(
+                            "active-song",
+                            i === currentIndex
+                        );
+
+                        const indicator =
+                            document.getElementById(
+                                "indicator" + i
+                            );
+
+                        if (indicator) {
+
+                            indicator.textContent =
+                                i === currentIndex
+                                    ? "▶"
+                                    : "";
+                        }
+                    });
+
+                const savedProgress =
+                    localStorage.getItem(
+                        "skynet-progress"
                     );
 
-                    if(ind){
+                globalAudio.addEventListener(
+                    "loadedmetadata",
+                    () => {
 
-                        ind.textContent =
-                        i === index ? '▶' : '';
-                    }
-                });
+                        if (savedProgress) {
+
+                            globalAudio.currentTime =
+                                parseFloat(
+                                    savedProgress
+                                );
+                        }
+
+                        const wasPlaying =
+                            localStorage.getItem(
+                                "skynet-playing"
+                            );
+
+                        if (
+                            wasPlaying === "true"
+                        ) {
+
+                            globalAudio.play()
+                                .then(() => {
+
+                                    setPlaying(
+                                        true
+                                    );
+
+                                })
+                                .catch(err =>
+                                    console.log(err)
+                                );
+
+                        } else {
+
+                            setPlaying(false);
+                        }
+                    },
+                    { once: true }
+                );
+
+            } catch (e) {
+
+                console.log(
+                    "Error cargando estado:",
+                    e
+                );
             }
 
-            const savedProgress =
-            localStorage.getItem(
-                'skynet-progress'
+        } else {
+
+            /* PRIMERA CARGA */
+            changeSong(
+                songs[0].src,
+                songs[0].title,
+                songs[0].artist,
+                0
             );
 
-            globalAudio.addEventListener(
-                'canplay',
-                () => {
+            globalAudio.pause();
 
-                    if(savedProgress){
-
-                        globalAudio.currentTime =
-                        parseFloat(savedProgress);
-                    }
-
-                    const wasPlaying =
-                    localStorage.getItem(
-                        'skynet-playing'
-                    );
-
-                    if(wasPlaying === 'true'){
-
-                        globalAudio.play()
-                        .catch(() => {});
-
-                        setPlaying(true);
-
-                    }else{
-
-                        setPlaying(false);
-                    }
-
-                },
-                { once:true }
-            );
-
-        }catch(e){}
+            setPlaying(false);
+        }
     }
-});
+);

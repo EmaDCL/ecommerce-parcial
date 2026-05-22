@@ -491,33 +491,33 @@
 
     </div>
 
-    <div class="nav-group">
+   <div class="nav-group">
+   <div class="nav-group-label">Tienda</div>
 
-        <div class="nav-group-label">Tienda</div>
+  <a href="${pageContext.request.contextPath}/productos.jsp"
+   class="nav-link-s">
+   Explorar
+</a>
 
-        <a href="${pageContext.request.contextPath}/productos.jsp" class="nav-link-s">
-            Explorar
-        </a>
+<a href="${pageContext.request.contextPath}/productos.jsp?categoria=tecnologia"
+   class="nav-link-s">
+   Tecnologia
+</a>
 
-        <a href="${pageContext.request.contextPath}/productos.jsp?categoria=tecnologia" class="nav-link-s">
-            Tecnologia
-        </a>
+<a href="${pageContext.request.contextPath}/productos.jsp?categoria=electrodomestico"
+   class="nav-link-s">
+   Electrodomesticos
+</a>
+</div>
 
-        <a href="${pageContext.request.contextPath}/productos.jsp?categoria=electrodomestico" class="nav-link-s">
-            Electrodomesticos
-        </a>
+<div class="sidebar-bottom">
 
-    </div>
+    <a href="${pageContext.request.contextPath}/music/cassette.jsp"
+   class="skynet-fm-btn">
+   SKYNET FM
+</a>
 
-    <div class="sidebar-bottom">
-
-        <a href="${pageContext.request.contextPath}/music/cassette.jsp" class="skynet-fm-btn">
-
-            SKYNET FM
-
-        </a>
-
-    </div>
+</div>
 
 </aside>
 
