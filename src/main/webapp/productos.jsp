@@ -43,7 +43,7 @@ List<Producto> lista =
         <span></span>
     </div>
 
-    <a href="index.jsp"
+    <a href="<%= request.getContextPath() %>/index.jsp"
        class="sidebar-logo">
 
         Skynet
@@ -56,7 +56,7 @@ List<Producto> lista =
             Categorias
         </div>
 
-        <a href="productos"
+        href="<%= request.getContextPath() %>/productos"
            class="nav-link-s">
 
             Todos
@@ -85,42 +85,42 @@ List<Producto> lista =
             Subcategorias
         </div>
 
-        <a href="productos?sub=celulares"
+        <a href="<%= request.getContextPath() %>/productos?sub=celulares"
            class="nav-link-s">
 
             Celulares
 
         </a>
 
-        <a href="productos?sub=computadores"
+        <a href="<%= request.getContextPath() %>/productos?sub=computadores"
            class="nav-link-s">
 
             Computadores
 
         </a>
 
-        <a href="productos?sub=tablets"
+        <a href="<%= request.getContextPath() %>/productos?sub=tablets"
            class="nav-link-s">
 
             Tablets
 
         </a>
 
-        <a href="productos?sub=accesorios"
+        <a href="<%= request.getContextPath() %>/productos?sub=accesorios"
            class="nav-link-s">
 
             Accesorios
 
         </a>
 
-        <a href="productos?sub=refrigeradores"
+        <a href="<%= request.getContextPath() %>/productos?sub=refrigeradores"
            class="nav-link-s">
 
             Refrigeradores
 
         </a>
 
-        <a href="productos?sub=licuadoras"
+        <a href="<%= request.getContextPath() %>/productos?sub=licuadoras"
            class="nav-link-s">
 
             Licuadoras
@@ -151,7 +151,7 @@ List<Producto> lista =
     <header class="topbar">
 
         <form class="search-form"
-              action="productos"
+              action="<%= request.getContextPath() %>/productos"
               method="get">
 
             <input type="search"
@@ -179,7 +179,7 @@ List<Producto> lista =
 
             </a>
 
-            <a href="CarritoServlet"
+            <a href="<%= request.getContextPath() %>/CarritoServlet"
                class="icon-btn">
 
                 <i class="bi bi-cart-fill"></i>
@@ -187,7 +187,7 @@ List<Producto> lista =
 
             </a>
 
-            <a href="music/cassette.jsp"
+            <a href="<%= request.getContextPath() %>/music/cassette.jsp"
                class="icon-btn">
 
                 <i class="bi bi-music-note-beamed"></i>
@@ -324,7 +324,7 @@ List<Producto> lista =
 
                     </span>
 
-                    <a href="CarritoServlet?action=add&id=<%= p.getId() %>"
+                    <a href="<%= request.getContextPath() %>/CarritoServlet?action=add&id=<%= p.getId() %>"
                        class="btn-agregar">
 
                         <i class="bi bi-cart-plus"></i>
