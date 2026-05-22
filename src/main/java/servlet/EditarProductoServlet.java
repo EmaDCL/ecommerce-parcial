@@ -11,7 +11,7 @@ import model.Producto;
 import repository.ProductoRepository;
 
 /**
- *
+
  * @author Juan sebastian Ortiz
  */
 @WebServlet(name = "EditarProductoServlet", urlPatterns = {"/editarProducto"})

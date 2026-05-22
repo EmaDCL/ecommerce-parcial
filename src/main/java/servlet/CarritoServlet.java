@@ -6,8 +6,10 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
-
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Carrito;
 import model.Producto;
 import repository.ProductoRepository;
@@ -30,6 +32,7 @@ public class CarritoServlet extends HttpServlet {
                 (List<Carrito>) session.getAttribute("carrito");
 
         if (carrito == null) {
+
             carrito = new ArrayList<>();
         }
 
@@ -56,7 +59,10 @@ public class CarritoServlet extends HttpServlet {
 
             if (producto == null) {
 
-                response.sendRedirect("/productos");
+                response.sendRedirect(
+                        request.getContextPath() + "/productos"
+                );
+
                 return;
             }
 
@@ -86,10 +92,15 @@ public class CarritoServlet extends HttpServlet {
 
             // GUARDAR SESION
 
-           session.setAttribute("carrito", carrito);
+            session.setAttribute("carrito", carrito);
 
-response.sendRedirect(request.getContextPath() + "/productos?agregado=" + id);
-return;
+            response.sendRedirect(
+                    request.getContextPath()
+                    + "/productos?agregado="
+                    + id
+            );
+
+            return;
         }
 
         // ======================================
@@ -108,27 +119,32 @@ return;
 
             session.setAttribute("carrito", carrito);
 
-            response.sendRedirect(request.getContextPath() + "/CarritoServlet");
+            response.sendRedirect(
+                    request.getContextPath()
+                    + "/CarritoServlet"
+            );
+
             return;
         }
 
-        
-        
-// ======================================
-// FINALIZAR COMPRA
-// ======================================
+        // ======================================
+        // FINALIZAR COMPRA
+        // ======================================
 
-if ("checkout".equals(action)) {
+        if ("checkout".equals(action)) {
 
-    carrito.clear();
+            carrito.clear();
 
-    session.setAttribute("carrito", carrito);
+            session.setAttribute("carrito", carrito);
 
-    response.sendRedirect(request.getContextPath() + "/Carrito.jsp?comprado=true");
-    return;
-}
-        
-        
+            response.sendRedirect(
+                    request.getContextPath()
+                    + "/Carrito.jsp?comprado=true"
+            );
+
+            return;
+        }
+
         // ======================================
         // CALCULAR TOTAL
         // ======================================
@@ -163,10 +179,8 @@ if ("checkout".equals(action)) {
         // ======================================
 
         request.setAttribute("subtotal", subtotal);
-        request.setAttribute("destacado", destacado);
 
-        
-        // enviar carrito 
+        request.setAttribute("destacado", destacado);
 
         request.setAttribute("carrito", carrito);
 
